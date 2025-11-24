@@ -1,15 +1,15 @@
 datasource db {
   provider = "postgresql"
-  url      = env("POSTGRES_URL")
 }
 
 generator client {
-  provider        = "prisma-client-js"
+  provider        = "prisma-client"
+  output          = "generated"
   previewFeatures = ["views"]
 }
 
 generator markdown {
-  provider = "node ./lib/executable/markdown"
+  provider = "node ../../lib/executable/markdown"
   title    = "Implicit M: N relationships"
   output   = "./implicit.md"
 }
