@@ -1,19 +1,26 @@
 import cp from "child_process";
 import fs from "fs";
 
-const execute = (str: string) => {
-  console.log(`${str}\n`);
-  cp.execSync(str, { stdio: "inherit" });
-};
-
 const main = (): void => {
+  const execute = () => {
+    const script: string = "npx prisma generate";
+    console.log(script);
+    cp.execSync(script, { stdio: "inherit" });
+  };
+
   process.chdir(__dirname + "/..");
-  execute("npx prisma generate");
+  execute();
 
   const directory: string[] = fs
     .readdirSync(__dirname)
-    .filter((file) => file.endsWith(".prisma"));
-  for (const file of directory)
-    execute(`npx prisma generate --schema test/${file}`);
+    .filter(
+      (file) =>
+        fs.statSync(`${__dirname}/${file}`).isDirectory() &&
+        fs.existsSync(`${__dirname}/${file}/prisma.config.ts`),
+    );
+  for (const file of directory) {
+    process.chdir(`${__dirname}/${file}`);
+    execute();
+  }
 };
 main();
