@@ -1,0 +1,16 @@
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'daily'
+    open-pull-requests-limit: 25
+    versioning-strategy: increase
+    allow:
+      - dependency-name: "@prisma/*"
+      - dependency-name: "prisma"
+    groups:
+      Prisma:
+        patterns:
+          - "@prisma/*"
+          - "prisma"
